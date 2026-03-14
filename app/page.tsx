@@ -1,6 +1,3 @@
-// app/page.tsx  — SERVER COMPONENT
-// Loads the client-side HomePage component.
-// JSON-LD structured data lives here (server-rendered, great for SEO).
 
 import type { Metadata } from 'next'
 import { HomeClient } from '@/components/HomeClient'
