@@ -53,7 +53,7 @@ export async function POST(req: NextRequest) {
     const { error } = await resend.emails.send({
       from:    process.env.CONTACT_FROM_EMAIL ?? 'onboarding@resend.dev',
       to:      process.env.CONTACT_TO_EMAIL   ?? 'you@example.com',
-      replyTo: email,
+      reply_to: email,
       subject: `New Carrier Onboarding Request — ${name} (${truckType})`,
 
       // Plain-text fallback
