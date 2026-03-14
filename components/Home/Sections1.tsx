@@ -165,7 +165,7 @@ export function EquipmentSection() {
       <div ref={imageRef} className="relative h-[220px] lg:h-[300px] overflow-hidden">
         <motion.div style={{ y: imgY }} className="absolute inset-0 scale-110">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="https://images.unsplash.com/photo-1519003300449-424ad0405076?w=1920&q=85" alt="Fleet of trucks on interstate highway" className="w-full h-full object-cover object-center" />
+          <img src="https://images.unsplash.com/photo-1591768793355-74d04bb6608f?w=1920&q=85" alt="Fleet of trucks on interstate highway" className="w-full h-full object-cover object-center" />
         </motion.div>
         <div className="absolute inset-0 bg-gradient-to-b from-[#0A0A14]/55 via-transparent to-[#0A0A14]" />
         <div className="absolute inset-0 bg-gradient-to-r from-[#0A0A14]/50 to-transparent" />
