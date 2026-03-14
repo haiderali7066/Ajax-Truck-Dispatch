@@ -14,6 +14,8 @@ import Link from 'next/link'
 import {
   motion,
   useInView,
+  useScroll,
+  useTransform,
   AnimatePresence,
   type Variants,
 } from 'framer-motion'
@@ -188,169 +190,186 @@ const EMPTY_FORM: FormState = {
 }
 
 /* ─────────────────────────────────────────
-   HERO — texture bg, NO image/video
-   Identical approach to services-page hero
+   HERO — matches contact page exactly:
+   • useScroll parallax on content
+   • heading left + animated panel right
+   • hard dark stop at bottom (not white blend)
 ───────────────────────────────────────── */
 function Hero() {
+  const heroRef  = useRef<HTMLElement>(null)
+  const { scrollYProgress } = useScroll({ target: heroRef, offset: ['start start', 'end start'] })
+  const contentY = useTransform(scrollYProgress, [0, 1], ['0%', '18%'])
+
   const heroStagger: Variants = {
     hidden:  {},
-    visible: { transition: { staggerChildren: 0.1, delayChildren: 0.1 } },
+    visible: { transition: { staggerChildren: 0.1, delayChildren: 0.15 } },
   }
 
+  const PANEL_ROWS = [
+    { icon: <IconRemote />,  label: 'Work Style',  value: '100% Remote — anywhere in the US'   },
+    { icon: <IconClock />,   label: 'Schedule',    value: 'Mon–Sat · 9AM – 6PM EST'            },
+    { icon: <IconGrowth />,  label: 'Growth',      value: 'Promote from within — fast track'   },
+    { icon: <IconTeam />,    label: 'Team Size',   value: 'Small, tight-knit — real impact'    },
+    { icon: <IconImpact />,  label: 'Mission',     value: 'Help carrier businesses grow & earn'},
+    { icon: <IconExpert />,  label: 'Learning',    value: 'Cross-train with dispatch pros daily'},
+  ]
+
   return (
-    <section className="relative min-h-[82vh] flex items-center overflow-hidden bg-[#0A0A14]">
+    <section ref={heroRef} className="relative min-h-[90vh] flex items-center overflow-hidden bg-[#0A0A14]">
 
       {/* Layer 1: cross-hatch texture */}
-      <div
-        className="absolute inset-0 z-[1] opacity-[0.04]"
-        style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E")`,
-          backgroundSize: '60px 60px',
-        }}
-      />
+      <div className="absolute inset-0 z-[1] opacity-[0.04]" style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E")`, backgroundSize: '60px 60px' }} />
 
-      {/* Layer 2: fine dot grid */}
-      <div
-        className="absolute inset-0 z-[2] opacity-[0.09]"
-        style={{
-          backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.18) 1px, transparent 1px)',
-          backgroundSize: '38px 38px',
-        }}
-      />
+      {/* Layer 2: dot grid */}
+      <div className="absolute inset-0 z-[2] opacity-[0.09]" style={{ backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.18) 1px, transparent 1px)', backgroundSize: '38px 38px' }} />
 
-      {/* Layer 3: "AJAX" watermark */}
+      {/* Layer 3: AJAX CAREERS watermark */}
       <div className="absolute z-[3] inset-0 flex flex-col items-center justify-center pointer-events-none select-none overflow-hidden">
-        <span
-          className="block text-center leading-[0.80]"
-          style={{
-            fontFamily: "'Bebas Neue',sans-serif",
-            fontSize: 'clamp(100px, 20vw, 320px)',
-            color: 'rgba(255,255,255,0.025)',
-          }}
-        >
-          AJAX
-        </span>
-        <span
-          className="block text-center leading-[0.80]"
-          style={{
-            fontFamily: "'Bebas Neue',sans-serif",
-            fontSize: 'clamp(60px, 12vw, 190px)',
-            color: 'rgba(255,255,255,0.025)',
-          }}
-        >
-          CAREERS
-        </span>
+        {['AJAX', 'CAREERS'].map((w, i) => (
+          <span key={w} className="block text-center leading-[0.80] tracking-tight" style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: i === 0 ? 'clamp(96px, 19vw, 300px)' : 'clamp(72px, 14vw, 220px)', color: 'rgba(255,255,255,0.028)' }}>{w}</span>
+        ))}
       </div>
 
       {/* Layer 4: amber glow — left */}
-      <div
-        className="absolute z-[4] -left-24 top-1/2 -translate-y-1/2 w-[600px] h-[600px] pointer-events-none"
-        style={{ background: 'radial-gradient(circle, rgba(245,158,11,0.11) 0%, rgba(245,158,11,0.03) 44%, transparent 66%)' }}
-      />
+      <div className="absolute z-[4] -left-24 top-1/2 -translate-y-1/2 w-[640px] h-[640px] pointer-events-none" style={{ background: 'radial-gradient(circle, rgba(245,158,11,0.12) 0%, rgba(245,158,11,0.03) 44%, transparent 66%)' }} />
 
       {/* Layer 5: amber glow — top right */}
-      <div
-        className="absolute z-[4] right-[-80px] top-[-60px] w-[440px] h-[440px] pointer-events-none"
-        style={{ background: 'radial-gradient(circle, rgba(245,158,11,0.07) 0%, transparent 62%)' }}
-      />
+      <div className="absolute z-[4] right-[-80px] top-[-60px] w-[480px] h-[480px] pointer-events-none" style={{ background: 'radial-gradient(circle, rgba(245,158,11,0.07) 0%, transparent 62%)' }} />
 
       {/* Top amber hairline */}
       <div className="absolute top-0 inset-x-0 h-[1px] z-10 bg-gradient-to-r from-transparent via-amber-400/50 to-transparent" />
 
-      {/* Bottom white blend — deep smooth fade into next section */}
-      <div
-        className="absolute bottom-0 inset-x-0 h-44 z-[8] pointer-events-none"
-        style={{ background: 'linear-gradient(to top,#F8F7F3 0%,#F8F7F3 15%,rgba(248,247,243,0.85) 40%,rgba(248,247,243,0.3) 70%,transparent 100%)' }}
-      />
+      {/* Bottom: hard dark stop — same as contact page */}
+      <div className="absolute bottom-0 inset-x-0 h-24 z-[8] pointer-events-none" style={{ background: 'linear-gradient(to top, #0A0A14 0%, #0A0A14 20%, transparent 100%)' }} />
 
-      {/* Content */}
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-5 lg:px-10 pt-28 pb-28 lg:pb-36">
-        <motion.div variants={heroStagger} initial="hidden" animate="visible">
+      {/* Content — parallax */}
+      <motion.div style={{ y: contentY }} className="relative z-10 w-full max-w-7xl mx-auto px-5 lg:px-10 pt-28 pb-20">
 
-          {/* Two-col: heading left, desc + CTA right */}
-          <div className="grid lg:grid-cols-[1fr_400px] gap-12 lg:gap-20 items-end mb-14">
+        {/* 2-col: heading left, panel right */}
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center mb-16 lg:mb-20">
 
-            {/* Left — heading */}
-            <div>
-              <motion.div variants={fadeUp} className="inline-flex items-center gap-2.5 bg-amber-400/10 border border-amber-400/25 text-amber-300 text-[11px] font-bold tracking-[2.5px] uppercase px-4 py-2 rounded-full mb-6">
-                <motion.span
-                  className="w-2 h-2 rounded-full bg-amber-400"
-                  animate={{ scale: [1, 1.55, 1], opacity: [1, 0.4, 1] }}
-                  transition={{ duration: 2.2, repeat: Infinity, ease: 'easeInOut' }}
-                />
-                We&apos;re Hiring
+          {/* ── Left: heading + CTAs + trust pills ── */}
+          <motion.div variants={heroStagger} initial="hidden" animate="visible">
+
+            {/* Pill badge */}
+            <motion.div variants={fadeUp} className="inline-flex items-center gap-2.5 bg-amber-400/10 border border-amber-400/25 text-amber-300 text-[11px] font-bold tracking-[2.5px] uppercase px-4 py-2 rounded-full mb-6">
+              <motion.span
+                className="w-2 h-2 rounded-full bg-amber-400"
+                animate={{ scale: [1, 1.5, 1], opacity: [1, 0.4, 1] }}
+                transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+              />
+              Now Hiring
+            </motion.div>
+
+            {/* H1 */}
+            <motion.h1 variants={fadeUp} className="leading-[0.87] tracking-wide mb-7" style={{ fontFamily: "'Bebas Neue',sans-serif" }}>
+              <span className="block text-white"  style={{ fontSize: 'clamp(54px,7vw,108px)' }}>JOIN THE</span>
+              <span className="block" style={{ fontSize: 'clamp(54px,7vw,108px)', background: 'linear-gradient(90deg,#F59E0B 0%,#FCD34D 35%,#F59E0B 65%,#B45309 100%)', backgroundSize: '200% auto', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text', animation: 'shimmer 3.5s linear infinite' }}>AJAX TEAM.</span>
+            </motion.h1>
+
+            <motion.p variants={fadeUp} className="text-gray-400 text-base lg:text-[1.08rem] leading-[1.85] max-w-[460px] mb-10 font-light">
+              We&apos;re building the best dispatch team in the country. If you&apos;re driven, experienced, and passionate about logistics — we want to hear from you.
+            </motion.p>
+
+            {/* CTAs */}
+            <motion.div variants={fadeUp} className="flex flex-wrap gap-4 mb-9">
+              <motion.div whileHover={{ y: -3, scale: 1.02 }} whileTap={{ scale: 0.97 }} transition={{ type: 'spring', stiffness: 400, damping: 18 }}>
+                <a href="#apply" className="inline-flex items-center gap-2.5 bg-amber-400 hover:bg-amber-300 text-gray-900 font-bold text-[15px] px-8 py-4 rounded-xl transition-colors duration-200 shadow-[0_8px_28px_rgba(245,158,11,0.32)] hover:shadow-[0_14px_40px_rgba(245,158,11,0.44)]">
+                  Apply Now <ArrowRight />
+                </a>
               </motion.div>
-
-              <motion.h1 variants={fadeUp} className="leading-[0.88] tracking-wide" style={{ fontFamily: "'Bebas Neue',sans-serif" }}>
-                <span className="block text-white" style={{ fontSize: 'clamp(56px,8.5vw,114px)' }}>JOIN THE</span>
-                <span
-                  className="block"
-                  style={{
-                    fontSize: 'clamp(56px,8.5vw,114px)',
-                    background: 'linear-gradient(90deg,#F59E0B 0%,#FCD34D 35%,#F59E0B 65%,#B45309 100%)',
-                    backgroundSize: '200% auto',
-                    WebkitBackgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent',
-                    backgroundClip: 'text',
-                    animation: 'shimmer 3.5s linear infinite',
-                  }}
-                >
-                  AJAX TEAM.
-                </span>
-              </motion.h1>
-            </div>
-
-            {/* Right — desc + CTAs */}
-            <div>
-              <motion.p variants={fadeUp} className="text-gray-300 text-base lg:text-[17px] leading-[1.82] mb-8 font-light">
-                We&apos;re building the best dispatch team in the country. If you&apos;re driven, experienced, and passionate about logistics — we want to hear from you.
-              </motion.p>
-
-              <motion.div variants={fadeUp} className="flex flex-wrap gap-3 mb-7">
-                <motion.div whileHover={{ y: -3, scale: 1.02 }} whileTap={{ scale: 0.97 }} transition={{ type: 'spring', stiffness: 400, damping: 18 }}>
-                  <a href="#apply" className="inline-flex items-center gap-2.5 bg-amber-400 hover:bg-amber-300 text-gray-900 font-bold text-[15px] px-7 py-3.5 rounded-xl transition-colors duration-200 shadow-[0_6px_24px_rgba(245,158,11,0.28)]">
-                    Apply Now <ArrowRight />
-                  </a>
-                </motion.div>
-                <motion.div whileHover={{ y: -3 }} whileTap={{ scale: 0.97 }}>
-                  <a href="#perks" className="inline-flex items-center gap-2.5 border border-white/18 hover:border-amber-400/50 text-white hover:text-amber-300 font-semibold text-[15px] px-7 py-3.5 rounded-xl transition-all duration-200 bg-white/[0.04]">
-                    Why Work Here
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
-                  </a>
-                </motion.div>
+              <motion.div whileHover={{ y: -3 }} whileTap={{ scale: 0.97 }}>
+                <a href="#perks" className="inline-flex items-center gap-2.5 border border-white/20 hover:border-amber-400/55 text-white hover:text-amber-300 font-semibold text-[15px] px-8 py-4 rounded-xl transition-all duration-200 bg-white/[0.04]">
+                  Why Work Here
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+                </a>
               </motion.div>
+            </motion.div>
 
-              <motion.ul variants={fadeUp} className="flex flex-wrap gap-x-5 gap-y-2 list-none">
-                {['100% Remote', 'Mon–Sat schedule', 'Promote from within'].map(t => (
-                  <li key={t} className="flex items-center gap-1.5 text-[13px] text-gray-500 font-medium">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" strokeWidth="2.8" strokeLinecap="round"><polyline points="20 6 9 17 4 12" /></svg>
-                    {t}
-                  </li>
-                ))}
-              </motion.ul>
-            </div>
-          </div>
-
-          {/* Stats strip */}
-          <motion.div
-            variants={fadeUp}
-            className="grid grid-cols-2 lg:grid-cols-4 rounded-2xl overflow-hidden border border-white/[0.07]"
-          >
-            {[
-              { value: '500+',   label: 'Carriers We Serve'   },
-              { value: '100%',   label: 'Remote Positions'    },
-              { value: 'Mon–Sat', label: 'Work Schedule'      },
-              { value: '24h',    label: 'Onboard to First Load' },
-            ].map((s, i) => (
-              <motion.div key={i} whileHover={{ backgroundColor: 'rgba(245,158,11,0.07)' }}
-                className="group bg-white/[0.03] transition-colors duration-300 px-6 py-6 lg:px-8 lg:py-7 border-r border-white/[0.06] last:border-r-0 [&:nth-child(2)]:border-r-0 lg:[&:nth-child(2)]:border-r">
-                <div className="text-white group-hover:text-amber-400 transition-colors duration-300 leading-none tracking-wide mb-1" style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: 'clamp(28px,4vw,46px)' }}>{s.value}</div>
-                <div className="text-gray-500 text-[10px] font-semibold uppercase tracking-[1.8px]">{s.label}</div>
-              </motion.div>
-            ))}
+            {/* Trust pills */}
+            <motion.div variants={fadeUp} className="flex flex-wrap gap-x-7 gap-y-2">
+              {['100% Remote', 'Mon–Sat schedule', 'Promote from within'].map(t => (
+                <div key={t} className="flex items-center gap-1.5 text-sm text-gray-500 font-medium">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" strokeWidth="2.5" strokeLinecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+                  {t}
+                </div>
+              ))}
+            </motion.div>
           </motion.div>
+
+          {/* ── Right: "What We're Looking For" panel — mirrors contact info panel ── */}
+          <motion.div
+            initial={{ opacity: 0, x: 32 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.5, duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
+            className="hidden lg:block"
+          >
+            <div className="rounded-2xl border border-white/[0.09] bg-white/[0.03] backdrop-blur-sm overflow-hidden">
+
+              {/* Panel header */}
+              <div className="px-6 py-4 border-b border-white/[0.07] flex items-center justify-between">
+                <div className="flex items-center gap-2.5">
+                  <span className="w-2.5 h-2.5 rounded-full bg-amber-400" />
+                  <span className="text-white text-[12px] font-bold tracking-[1.5px] uppercase">Life at AJAX</span>
+                </div>
+                <span className="text-[10px] font-bold tracking-[1.5px] uppercase bg-emerald-400/10 text-emerald-400 border border-emerald-400/20 px-2.5 py-1 rounded-full">● Positions Open</span>
+              </div>
+
+              {/* Info rows — staggered entrance identical to contact panel */}
+              <div className="divide-y divide-white/[0.05]">
+                {PANEL_ROWS.map((row, i) => (
+                  <motion.div
+                    key={i}
+                    initial={{ opacity: 0, x: 16 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.65 + i * 0.07, duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+                    className="flex items-center gap-4 px-6 py-3.5 hover:bg-white/[0.03] transition-colors duration-200 group"
+                  >
+                    <div className="w-9 h-9 rounded-lg bg-amber-400/10 border border-amber-400/15 flex items-center justify-center text-amber-400 flex-shrink-0 group-hover:bg-amber-400/15 transition-colors duration-200">
+                      {row.icon}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="text-gray-500 text-[10px] font-bold tracking-[1.5px] uppercase mb-0.5">{row.label}</div>
+                      <span className="text-white text-[13px] font-medium">{row.value}</span>
+                    </div>
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" strokeWidth="2.5" strokeLinecap="round" className="flex-shrink-0 opacity-50">
+                      <polyline points="20 6 9 17 4 12"/>
+                    </svg>
+                  </motion.div>
+                ))}
+              </div>
+
+              {/* Panel footer */}
+              <div className="px-6 py-4 bg-amber-400/[0.06] border-t border-white/[0.07]">
+                <p className="text-amber-300/80 text-[12px] font-medium">
+                  Don&apos;t see your role? Apply anyway — we&apos;re always looking for great people.
+                </p>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+
+        {/* Stats strip — full width */}
+        <motion.div
+          initial={{ opacity: 0, y: 44 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.9, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+          className="grid grid-cols-2 lg:grid-cols-4 rounded-2xl overflow-hidden border border-white/[0.08] backdrop-blur-sm"
+        >
+          {[
+            { value: '500+',    label: 'Carriers We Serve'    },
+            { value: '100%',    label: 'Remote Positions'     },
+            { value: 'Mon–Sat', label: 'Work Schedule'        },
+            { value: '24h',     label: 'Avg Onboard Time'     },
+          ].map((s, i) => (
+            <motion.div key={i} whileHover={{ backgroundColor: 'rgba(245,158,11,0.07)' }}
+              className="group bg-white/[0.04] transition-colors duration-300 px-7 py-7 border-r border-white/[0.06] last:border-r-0 [&:nth-child(2)]:border-r-0 lg:[&:nth-child(2)]:border-r">
+              <div className="text-white group-hover:text-amber-400 transition-colors duration-300 leading-none tracking-wide mb-1.5" style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: 'clamp(34px,4.5vw,50px)' }}>{s.value}</div>
+              <div className="text-gray-500 text-[11px] font-semibold uppercase tracking-[1.8px]">{s.label}</div>
+            </motion.div>
+          ))}
         </motion.div>
-      </div>
+      </motion.div>
     </section>
   )
 }
