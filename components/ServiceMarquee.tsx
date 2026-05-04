@@ -91,9 +91,9 @@ const ServiceMarquee = () => {
       {/* Heading */}
       <div className="text-center mb-16 px-4">
         <h2 className="text-3xl md:text-5xl font-bold text-slate-900 tracking-tight">
-          Our Services No One Else Provide 
+          Our Services No One Else Provides
         </h2>
-        <p className="text-slate-600 mt-4 text-base md:text-lg max-w-2xl mx-auto">
+        <p className="text-slate-800 mt-4 text-base md:text-lg max-w-2xl mx-auto">
           Complete trucking compliance & dispatch solutions built for reliability.
         </p>
       </div>
