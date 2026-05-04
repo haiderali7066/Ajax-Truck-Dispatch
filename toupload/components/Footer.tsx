@@ -65,12 +65,12 @@ export default function Footer() {
           <div>
             <h4 className="text-sm font-semibold tracking-widest uppercase text-gray-500 mb-5">
               Services
-            </h4><Link href={"/services"}>
+            </h4>
             <ul className="space-y-3 text-sm text-gray-400">
               {["Load Searching", "Rate Negotiation", "Broker Communication", "Paperwork & Docs", "Route Planning", "Dedicated Dispatcher"].map((s) => (
                 <li key={s} className="hover:text-amber-400 cursor-pointer transition-colors">{s}</li>
               ))}
-            </ul></Link>
+            </ul>
           </div>
 
           {/* Contact */}

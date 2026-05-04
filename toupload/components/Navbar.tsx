@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
 
 const NAV_LINKS = [
   { label: 'Home',     href: '/'         },
@@ -22,19 +21,13 @@ function ArrowRight({ size = 14 }: { size?: number }) {
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
-  const [open, setOpen] = useState(false)
-  const pathname = usePathname()
+  const [open,     setOpen]     = useState(false)
 
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 16)
     window.addEventListener('scroll', fn, { passive: true })
     return () => window.removeEventListener('scroll', fn)
   }, [])
-
-  const isActive = (href: string) => {
-    if (href === '/') return pathname === '/'
-    return pathname.startsWith(href)
-  }
 
   return (
     <>
@@ -46,7 +39,6 @@ export default function Navbar() {
         }`}
       >
         <nav className="max-w-7xl mx-auto px-5 lg:px-10 h-[68px] flex items-center justify-between">
-          
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2.5 group">
             <div
@@ -56,30 +48,19 @@ export default function Navbar() {
             <span
               className="font-black tracking-[3px] text-gray-900"
               style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: 24 }}
-            >
-              AJAX<span className="text-amber-400">.</span>
-            </span>
+            >AJAX<span className="text-amber-400">.</span></span>
           </Link>
 
           {/* Desktop links */}
           <ul className="hidden md:flex items-center gap-0.5 list-none">
-            {NAV_LINKS.map(l => {
-              const active = isActive(l.href)
-              return (
-                <li key={l.href}>
-                  <Link
-                    href={l.href}
-                    className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
-                      active
-                        ? 'text-gray-600 bg-amber-500'
-                        : 'text-gray-800 hover:text-gray-900 hover:bg-gray-50'
-                    }`}
-                  >
-                    {l.label}
-                  </Link>
-                </li>
-              )
-            })}
+            {NAV_LINKS.map(l => (
+              <li key={l.href}>
+                <Link
+                  href={l.href}
+                  className="px-4 py-2 rounded-lg text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 transition-all duration-200"
+                >{l.label}</Link>
+              </li>
+            ))}
           </ul>
 
           {/* Desktop CTA */}
@@ -118,28 +99,17 @@ export default function Navbar() {
       <div className={`fixed inset-0 z-40 md:hidden transition-all duration-300 ${open ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
         <div className="absolute inset-0 bg-gray-900/20 backdrop-blur-sm" onClick={() => setOpen(false)} />
         <div className={`absolute top-[68px] inset-x-0 bg-white border-b border-gray-200 shadow-xl p-6 transition-all duration-300 ${open ? 'translate-y-0 opacity-100' : '-translate-y-3 opacity-0'}`}>
-          
           <ul className="flex flex-col gap-1 mb-5 list-none">
-            {NAV_LINKS.map(l => {
-              const active = isActive(l.href)
-              return (
-                <li key={l.href}>
-                  <Link
-                    href={l.href}
-                    onClick={() => setOpen(false)}
-                    className={`block px-4 py-3 rounded-lg text-base font-medium transition-all duration-200 ${
-                      active
-                        ? 'bg-amber-50 text-amber-600'
-                        : 'text-gray-700 hover:bg-gray-50'
-                    }`}
-                  >
-                    {l.label}
-                  </Link>
-                </li>
-              )
-            })}
+            {NAV_LINKS.map(l => (
+              <li key={l.href}>
+                <Link
+                  href={l.href}
+                  onClick={() => setOpen(false)}
+                  className="block px-4 py-3 rounded-lg text-base font-medium text-gray-700 hover:bg-gray-50 transition-all duration-200"
+                >{l.label}</Link>
+              </li>
+            ))}
           </ul>
-
           <Link
             href="/contact"
             onClick={() => setOpen(false)}
