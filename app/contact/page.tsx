@@ -1,14 +1,5 @@
 'use client'
 
-// ─── contact/page.tsx ─────────────────────────────────────────────────────────
-// Design system matches ServicesPage exactly:
-//   • Texture-only hero — cross-hatch + dot grid + "AJAX DISPATCH" watermark
-//   • 2-col hero layout (headline left, contact info right)
-//   • bg-[#0A0A14] dark + bg-[#F8F7F3] cream sections
-//   • Bebas Neue headings, SectionPill, FadeSection, fadeUp
-//   • Form in cream section, required docs in dark sidebar panel
-//   • Final flat amber CTA banner
-// ─────────────────────────────────────────────────────────────────────────────
 
 import { useRef, useState } from 'react'
 import Link from 'next/link'
@@ -88,9 +79,9 @@ type FormData = {
 const TRUCK_TYPES = ['Dry Van', 'Reefer', 'Flatbed', 'Step Deck', 'Power Only', 'Box Truck']
 
 const CONTACT_INFO = [
-  { icon: <IconPhone />, label: 'Phone',    value: '+1 (855) 479-4089',        href: 'tel:+18554794089'            },
+  { icon: <IconPhone />, label: 'Phone',    value: '+1 (346) 428-0370',        href: 'tel:+1(346)428-0370'            },
   { icon: <IconMail />,  label: 'Email',    value: 'info@ajaxdispatch.com',    href: 'mailto:info@ajaxdispatch.com'},
-  { icon: <IconPin />,   label: 'Location', value: 'Wyoming, United States',   href: null                          },
+  { icon: <IconPin />,   label: 'Location', value: '1500 N. GRANT ST, STE R, Denver, CO 80203, US',   href: null                          },
   { icon: <IconClock />, label: 'Hours',    value: 'Mon–Sat  9AM – 6PM EST',   href: null                          },
 ]
 
@@ -608,7 +599,7 @@ function FormSection() {
                   className="flex items-center justify-center gap-2 bg-amber-400 hover:bg-amber-300 text-gray-900 font-bold text-sm py-3 px-5 rounded-xl transition-colors duration-200 shadow-[0_4px_14px_rgba(245,158,11,0.24)]"
                 >
                   <IconPhone />
-                  +1 (855) 479-4089
+                  +1 (346) 428-0370
                 </motion.a>
               </motion.div>
             </FadeSection>
@@ -667,7 +658,7 @@ function CTABanner() {
           </motion.div>
           <motion.div whileHover={{ y: -3 }} whileTap={{ scale: 0.97 }}>
             <a href="tel:+18554794089" className="inline-flex items-center gap-2.5 bg-black/10 hover:bg-black/[0.18] text-[#0A0A14] font-bold text-[15px] px-8 py-4 rounded-xl transition-all duration-200">
-              <IconPhone /> +1 (855) 479-4089
+              <IconPhone /> +1 (346) 428-0370
             </a>
           </motion.div>
         </motion.div>

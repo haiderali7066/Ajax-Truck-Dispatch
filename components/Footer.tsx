@@ -82,7 +82,7 @@ export default function Footer() {
               <li className="flex items-center gap-3 text-sm text-gray-400">
                 <Phone size={15} className="text-amber-400 shrink-0" />
                 <a href="tel:+18554794089" className="hover:text-amber-400 transition-colors">
-                  +1 (855) 479-4089
+                  +1 (346) 428-0370
                 </a>
               </li>
               <li className="flex items-center gap-3 text-sm text-gray-400">
@@ -93,7 +93,7 @@ export default function Footer() {
               </li>
               <li className="flex items-center gap-3 text-sm text-gray-400">
                 <MapPin size={15} className="text-amber-400 shrink-0" />
-                Wyoming, United States
+                1500 N. GRANT ST, STE R, Denver, CO 80203, US
               </li>
               <li className="flex items-center gap-3 text-sm text-gray-400">
                 <Clock size={15} className="text-amber-400 shrink-0" />

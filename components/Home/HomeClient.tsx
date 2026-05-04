@@ -1,30 +1,33 @@
 'use client'
 
-// components/Home/HomeClient.tsx
-// ─────────────────────────────────────────────────────────────────────────────
-// Thin client shell — assembles all Home section components in order.
-// Imported by the server page (app/page.tsx).
-// ─────────────────────────────────────────────────────────────────────────────
-
+import { HeroSection } from './HeroSection'
 import {
-  HeroSection,
   TrustBar,
   ServicesSection,
   EquipmentSection,
+} from './Sections1'
+
+import {
   HowItWorksSection,
   WhyUsSection,
   TestimonialsSection,
   CTABannerSection,
-  KEYFRAMES,
-} from './index'
+} from './Sections2'
+
+import { KEYFRAMES } from './shared'
+import ServiceMarquee from "@/components/ServiceMarquee";
+
+
 
 export function HomeClient() {
   return (
     <>
       <style>{KEYFRAMES}</style>
+
       <main>
         <HeroSection />
         <TrustBar />
+        <ServiceMarquee />
         <ServicesSection />
         <EquipmentSection />
         <HowItWorksSection />

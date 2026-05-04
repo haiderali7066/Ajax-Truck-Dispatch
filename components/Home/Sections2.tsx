@@ -21,91 +21,112 @@ import {
    HOW IT WORKS
 ───────────────────────────────────────── */
 
+
+
 const STEPS = [
-  { n: '01', title: 'Submit Your Info',     desc: 'Share your company details, truck type, and preferred lanes. Takes under 5 minutes.' },
-  { n: '02', title: 'Upload Documents',     desc: 'Securely upload your required carrier documents to get your account set up.', docs: ['MC Authority', 'USDOT #', 'Insurance Cert.', 'W9 Form'] },
-  { n: '03', title: 'Sign Agreement',       desc: 'Review and sign a simple, transparent dispatch agreement — no long-term lock-in.' },
-  { n: '04', title: 'Meet Your Dispatcher', desc: 'We assign a dedicated dispatcher who learns your schedule, goals, and preferences.' },
-  { n: '05', title: 'Start Rolling',        desc: 'Your dispatcher finds loads, negotiates rates, and keeps your truck profitable.' },
+  {
+    n: '01',
+    title: 'Submit Your Info',
+    desc: 'Share your company details, truck type, and preferred lanes. Takes under 5 minutes.',
+  },
+  {
+    n: '02',
+    title: 'Upload Documents',
+    desc: 'Securely upload your required carrier documents to get your account set up.',
+  },
+  {
+    n: '03',
+    title: 'Sign Agreement',
+    desc: 'Review and sign a simple, transparent dispatch agreement — no long-term lock-in.',
+  },
+  {
+    n: '04',
+    title: 'Meet Your Dispatcher',
+    desc: 'We assign a dedicated dispatcher who learns your schedule, goals, and preferences.',
+  },
+  {
+    n: '05',
+    title: 'Start Rolling',
+    desc: 'Your dispatcher finds loads, negotiates rates, and keeps your truck profitable.',
+  },
 ]
 
 export function HowItWorksSection() {
-  const [activeStep, setActiveStep] = useState(0)
-
   return (
-    <section className="py-16 lg:py-24 bg-[#F8F7F3] border-b border-[#E8E5DE]" id="how-it-works">
-      <div className="max-w-7xl mx-auto px-5 lg:px-10">
-        <FadeSection className="text-center max-w-xl mx-auto mb-14">
-          <SectionPill>How It Works</SectionPill>
-          <motion.h2 variants={fadeUp} className="leading-[0.93] mb-4 text-gray-900" style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: 'clamp(38px,5vw,70px)' }}>
-            FROM SIGN-UP TO<br /><span className="text-amber-500">FIRST LOAD IN 24H</span>
-          </motion.h2>
-          <motion.p variants={fadeUp} className="text-gray-600 text-base leading-relaxed font-light">
-            Our onboarding is straightforward by design. We cut the red tape so you can start earning faster.
-          </motion.p>
-        </FadeSection>
+    <section className="py-20 lg:py-28 bg-white border-b border-gray-200" id="how-it-works">
+      <div className="max-w-7xl mx-auto px-6 lg:px-12">
 
-        <div className="relative">
-          <div className="hidden lg:block absolute top-[56px] left-[calc(10%+52px)] right-[calc(10%+52px)] h-[1px] bg-[#E8E5DE]">
-            <motion.div className="h-full bg-amber-400 origin-left" initial={{ scaleX: 0 }} animate={{ scaleX: activeStep / (STEPS.length - 1) }} transition={{ duration: 0.5, ease: 'easeOut' }} />
-          </div>
+        {/* Header */}
+        <div className="text-center max-w-2xl mx-auto mb-16 lg:mb-20">
+          <h2
+            className="leading-[0.95] mb-6 text-gray-900"
+            style={{
+              fontFamily: "'Bebas Neue',sans-serif",
+              fontSize: 'clamp(42px,5vw,76px)',
+            }}
+          >
+            FROM SIGN-UP TO<br />
+            <span className="text-amber-500">FIRST LOAD IN 24H</span>
+          </h2>
 
-          <FadeSection className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-4">
-            {STEPS.map((step, i) => (
-              <motion.div key={i} variants={fadeUp} onClick={() => setActiveStep(i)} className="flex flex-col items-center text-center cursor-pointer">
-                <motion.div
-                  animate={{ borderColor: i <= activeStep ? '#F59E0B' : '#E8E5DE', boxShadow: i === activeStep ? '0 0 0 8px rgba(245,158,11,0.10)' : '0 0 0 0px transparent' }}
-                  transition={{ duration: 0.3 }}
-                  className="relative z-10 w-[100px] h-[100px] rounded-full bg-white border-2 flex items-center justify-center mb-5 shadow-md"
+          <p className="text-gray-700 text-base lg:text-lg leading-relaxed">
+            Simple onboarding. No delays. No confusion. Just a clear path to getting your truck on the road and earning fast.
+          </p>
+        </div>
+
+        {/* Steps */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-y-12 sm:gap-y-14 lg:gap-x-6">
+
+          {STEPS.map((step, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.45, delay: i * 0.08 }}
+              viewport={{ once: true }}
+              className="flex flex-col items-center text-center px-2"
+            >
+              {/* Circle */}
+              <div className="w-[90px] h-[90px] lg:w-[105px] lg:h-[105px] rounded-full bg-white border-2 border-gray-300 flex items-center justify-center mb-5 shadow-sm">
+                <span
+                  className="text-amber-500"
+                  style={{
+                    fontFamily: "'Bebas Neue',sans-serif",
+                    fontSize: 'clamp(28px,2.5vw,36px)',
+                  }}
                 >
-                  <motion.span animate={{ color: i <= activeStep ? '#F59E0B' : '#9CA3AF' }} style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: 32 }}>{step.n}</motion.span>
-                  <AnimatePresence>
-                    {i < activeStep && (
-                      <motion.div key="check" initial={{ scale: 0, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0, opacity: 0 }} className="absolute top-1 right-1 w-6 h-6 rounded-full bg-amber-400 flex items-center justify-center">
-                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3" strokeLinecap="round"><polyline points="20 6 9 17 4 12" /></svg>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </motion.div>
-                <motion.h3 animate={{ color: i <= activeStep ? '#B45309' : '#111827' }} className="font-semibold text-[14px] mb-2">{step.title}</motion.h3>
-                <AnimatePresence mode="wait">
-                  {i === activeStep ? (
-                    <motion.div key="desc" initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }} transition={{ duration: 0.22 }}>
-                      <p className="text-gray-600 text-[12px] leading-relaxed font-light max-w-[160px]">{step.desc}</p>
-                      {step.docs && (
-                        <div className="mt-2 flex flex-wrap justify-center gap-1">
-                          {step.docs.map(d => <span key={d} className="text-[10px] font-semibold bg-amber-50 text-amber-700 border border-amber-200 px-2 py-0.5 rounded-full">{d}</span>)}
-                        </div>
-                      )}
-                    </motion.div>
-                  ) : (
-                    <motion.p key="short" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-gray-400 text-[11px] max-w-[130px]">{step.title}</motion.p>
-                  )}
-                </AnimatePresence>
-              </motion.div>
-            ))}
-          </FadeSection>
+                  {step.n}
+                </span>
+              </div>
+
+              {/* Title */}
+              <h3 className="font-semibold text-[15px] lg:text-[17px] text-gray-900 mb-2">
+                {step.title}
+              </h3>
+
+              {/* Description */}
+              <p className="text-gray-600 text-[13px] lg:text-[14px] leading-relaxed max-w-[240px]">
+                {step.desc}
+              </p>
+            </motion.div>
+          ))}
+
         </div>
 
-        <div className="mt-10 flex flex-col items-center gap-3">
-          <div className="flex gap-2">
-            {STEPS.map((_, i) => (
-              <button key={i} onClick={() => setActiveStep(i)} className={`w-2 h-2 rounded-full transition-all duration-200 ${i === activeStep ? 'bg-amber-400 scale-125' : i < activeStep ? 'bg-amber-200' : 'bg-gray-200'}`} />
-            ))}
-          </div>
-          <div className="flex gap-2.5">
-            <motion.button whileTap={{ scale: 0.95 }} onClick={() => setActiveStep(s => Math.max(0, s - 1))} disabled={activeStep === 0} className="px-4 py-2 rounded-lg border border-gray-200 text-sm font-medium text-gray-600 disabled:opacity-30 transition-all">← Back</motion.button>
-            {activeStep < STEPS.length - 1
-              ? <motion.button whileTap={{ scale: 0.95 }} onClick={() => setActiveStep(s => Math.min(STEPS.length - 1, s + 1))} className="px-4 py-2 rounded-lg bg-amber-400 hover:bg-amber-300 text-gray-900 text-sm font-bold transition-all">Next →</motion.button>
-              : <Link href="/contact" className="px-4 py-2 rounded-lg bg-amber-400 hover:bg-amber-300 text-gray-900 text-sm font-bold transition-all inline-flex items-center gap-1.5">Begin Onboarding <ArrowRight size={13} /></Link>
-            }
-          </div>
+        {/* CTA */}
+        <div className="mt-16 lg:mt-20 flex justify-center">
+          <Link
+            href="/contact"
+            className="px-10 py-4 rounded-full bg-amber-500 hover:bg-amber-400 text-white text-sm lg:text-base font-bold transition-all shadow-md hover:shadow-lg"
+          >
+            Get Started
+          </Link>
         </div>
+
       </div>
     </section>
   )
 }
-
 /* ─────────────────────────────────────────
    WHY US
 ───────────────────────────────────────── */
@@ -190,16 +211,16 @@ export function WhyUsSection() {
 ───────────────────────────────────────── */
 
 const REVIEWS = [
-  { name: 'Marcus T.',   role: 'Owner-Operator · Dry Van · Texas',       initials: 'MT', color: 'bg-amber-100 text-amber-700',    rating: 5, quote: 'AJAX doubled my weekly revenue in the first month. My dispatcher knows exactly what I need — high rates, no drama, and loads that respect my home time. Best decision I made for my business.' },
-  { name: 'Sandra R.',   role: 'Fleet Owner · 3 Trucks · Ohio',          initials: 'SR', color: 'bg-blue-100 text-blue-700',      rating: 5, quote: 'Managing three trucks and chasing brokers was exhausting. AJAX handles everything now. I check in with my dispatcher once a day and the loads are always lined up. Huge stress relief.' },
-  { name: 'James K.',    role: 'Independent Driver · Flatbed · Georgia', initials: 'JK', color: 'bg-emerald-100 text-emerald-700', rating: 5, quote: "I was skeptical at first — but these guys negotiated rates I couldn't get on my own. I haven't had an empty day in three months. The paperwork coverage alone was worth switching." },
-  { name: 'Darius M.',   role: 'Owner-Operator · Reefer · Illinois',     initials: 'DM', color: 'bg-purple-100 text-purple-700',  rating: 5, quote: 'I run reefer loads and the lane pairing they set up for me is incredible. Zero empty miles back from the northeast. My gross went up over $4,000 in the first four weeks.' },
-  { name: 'Patricia W.', role: 'Small Fleet · 5 Trucks · California',   initials: 'PW', color: 'bg-rose-100 text-rose-700',      rating: 5, quote: 'The paperwork alone was killing me before. Now every rate con, invoice, and broker packet is handled before I even hear about it. My drivers are happier and so is my accountant.' },
-  { name: 'Trevor H.',   role: 'Power Only · Step Deck · Tennessee',     initials: 'TH', color: 'bg-teal-100 text-teal-700',     rating: 5, quote: 'Switched from self-dispatching after three years and I wish I had done it sooner. The rates are consistently 20–30 cents per mile higher than what I was booking on my own.' },
+  { role: 'Owner-Operator · Dry Van · Texas', initials: 'MT', color: 'bg-amber-100 text-amber-700', rating: 5, quote: 'AJAX doubled my weekly revenue in the first month. My dispatcher knows exactly what I need — high rates, no drama, and loads that respect my home time.' },
+  { role: 'Fleet Owner · 3 Trucks · Ohio', initials: 'SR', color: 'bg-blue-100 text-blue-700', rating: 5, quote: 'Managing three trucks was exhausting. AJAX handles everything now. Loads are always lined up. Huge stress relief.' },
+  { role: 'Independent Driver · Flatbed · Georgia', initials: 'JK', color: 'bg-emerald-100 text-emerald-700', rating: 5, quote: "Rates I couldn't get on my own. I haven't had an empty day in months. The paperwork alone made it worth switching." },
+  { role: 'Owner-Operator · Reefer · Illinois', initials: 'DM', color: 'bg-purple-100 text-purple-700', rating: 5, quote: 'Zero empty miles back from the northeast. Revenue increased significantly within weeks.' },
+  { role: 'Small Fleet · 5 Trucks · California', initials: 'PW', color: 'bg-rose-100 text-rose-700', rating: 5, quote: 'All paperwork is handled before I even hear about it. Drivers are happier and operations run smoother.' },
+  { role: 'Power Only · Step Deck · Tennessee', initials: 'TH', color: 'bg-teal-100 text-teal-700', rating: 5, quote: 'Rates are consistently higher than what I used to book myself. Switching was the best decision.' },
 ]
 
 export function TestimonialsSection() {
-  const [current, setCurrent]     = useState(0)
+  const [current, setCurrent] = useState(0)
   const [direction, setDirection] = useState(0)
   const [isHovered, setIsHovered] = useState(false)
 
@@ -207,51 +228,87 @@ export function TestimonialsSection() {
     if (isHovered) return
     const id = setInterval(() => {
       setDirection(1)
-      setCurrent(c => (c + 1) % REVIEWS.length)
-    }, 4500)
+      setCurrent((c) => (c + 1) % REVIEWS.length)
+    }, 5200)
     return () => clearInterval(id)
   }, [isHovered])
 
   const paginate = (dir: number) => {
     setDirection(dir)
-    setCurrent(c => (c + dir + REVIEWS.length) % REVIEWS.length)
+    setCurrent((c) => (c + dir + REVIEWS.length) % REVIEWS.length)
   }
 
   return (
-    <section className="py-14 lg:py-20 bg-[#F8F7F3] border-b border-[#E8E5DE]" id="testimonials">
+    <section className="py-14 lg:py-20 bg-white border-b border-gray-200" id="testimonials">
       <div className="max-w-7xl mx-auto px-5 lg:px-10">
-        <FadeSection className="text-center mb-10">
-          <SectionPill>Carrier Reviews</SectionPill>
-          <motion.h2 variants={fadeUp} className="leading-[0.93] mb-3 text-gray-900" style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: 'clamp(44px,5.5vw,80px)' }}>
-            CARRIERS LOVE<br /><span className="text-amber-500">WORKING WITH US</span>
-          </motion.h2>
-          <motion.p variants={fadeUp} className="text-gray-500 text-base font-light">Real results from real owner-operators across the USA.</motion.p>
-        </FadeSection>
 
-        <div className="w-full" onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
+        {/* Header */}
+        <div className="text-center mb-10">
+          <h2
+            className="leading-[0.93] mb-3 text-gray-900"
+            style={{
+              fontFamily: "'Bebas Neue',sans-serif",
+              fontSize: 'clamp(44px,5.5vw,80px)',
+            }}
+          >
+            CARRIERS LOVE<br />
+            <span className="text-amber-500">WORKING WITH US</span>
+          </h2>
+          <p className="text-gray-600 text-base">
+            Real results from real owner-operators across the USA.
+          </p>
+        </div>
+
+        <div
+          className="w-full"
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+        >
+
           {/* Desktop: 3-card */}
           <div className="hidden md:grid grid-cols-3 gap-5 w-full">
-            {[-1, 0, 1].map(offset => {
-              const idx      = (current + offset + REVIEWS.length) % REVIEWS.length
-              const rv       = REVIEWS[idx]
+            {[-1, 0, 1].map((offset) => {
+              const idx = (current + offset + REVIEWS.length) % REVIEWS.length
+              const rv = REVIEWS[idx]
               const isCenter = offset === 0
+
               return (
                 <motion.div
                   key={`${current}-${offset}`}
-                  animate={{ opacity: isCenter ? 1 : 0.42, scale: isCenter ? 1 : 0.97 }}
-                  transition={{ duration: 0.38 }}
-                  onClick={() => { if (offset !== 0) paginate(offset as 1 | -1) }}
-                  className={`w-full bg-white rounded-2xl p-7 flex flex-col ${isCenter ? 'border-2 border-amber-300 shadow-[0_6px_32px_rgba(0,0,0,0.09)]' : 'border-2 border-[#E8E5DE] shadow-sm cursor-pointer'}`}
+                  animate={{
+                    opacity: isCenter ? 1 : 0.45,
+                    scale: isCenter ? 1 : 0.97,
+                  }}
+                  transition={{
+                    duration: 0.55,
+                    ease: [0.22, 1, 0.36, 1],
+                  }}
+                  onClick={() => {
+                    if (offset !== 0) paginate(offset as 1 | -1)
+                  }}
+                  className={`w-full bg-white rounded-2xl p-7 flex flex-col ${
+                    isCenter
+                      ? 'border-2 border-amber-300 shadow-[0_8px_40px_rgba(0,0,0,0.08)]'
+                      : 'border border-gray-200 shadow-sm cursor-pointer'
+                  }`}
                 >
                   <Stars n={rv.rating} />
+
                   <blockquote className="flex-1 mt-4 mb-6">
-                    <p className="text-gray-700 text-[15px] leading-[1.75] font-light italic">&ldquo;{rv.quote}&rdquo;</p>
+                    <p className="text-gray-700 text-[15px] lg:text-[16px] leading-[1.9] font-light italic">
+                      &ldquo;{rv.quote}&rdquo;
+                    </p>
                   </blockquote>
+
+                  {/* Footer (NO NAME) */}
                   <div className="flex items-center gap-3 pt-4 border-t border-gray-100">
-                    <div className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold ${rv.color}`}>{rv.initials}</div>
-                    <div>
-                      <div className="text-gray-900 font-semibold text-[14px]">{rv.name}</div>
-                      <div className="text-gray-400 text-[12px]">{rv.role}</div>
+                    <div
+                      className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold ${rv.color}`}
+                    >
+                      {rv.initials}
+                    </div>
+                    <div className="text-gray-500 text-[13px] font-medium tracking-wide">
+                      {rv.role}
                     </div>
                   </div>
                 </motion.div>
@@ -265,19 +322,37 @@ export function TestimonialsSection() {
               <motion.div
                 key={current}
                 initial={{ opacity: 0, x: direction > 0 ? 50 : -50 }}
-                animate={{ opacity: 1, x: 0, transition: { duration: 0.38, ease: [0.22, 1, 0.36, 1] } }}
-                exit={{ opacity: 0, x: direction > 0 ? -50 : 50, transition: { duration: 0.25 } }}
-                className="w-full bg-white border-2 border-amber-300 rounded-2xl p-6 shadow-[0_4px_24px_rgba(0,0,0,0.08)]"
+                animate={{
+                  opacity: 1,
+                  x: 0,
+                  transition: {
+                    duration: 0.55,
+                    ease: [0.22, 1, 0.36, 1],
+                  },
+                }}
+                exit={{
+                  opacity: 0,
+                  x: direction > 0 ? -50 : 50,
+                  transition: { duration: 0.3 },
+                }}
+                className="w-full bg-white border-2 border-amber-300 rounded-2xl p-6 shadow-[0_6px_28px_rgba(0,0,0,0.08)]"
               >
                 <Stars n={REVIEWS[current].rating} />
+
                 <blockquote className="mt-4 mb-5">
-                  <p className="text-gray-700 text-[15px] leading-[1.75] font-light italic">&ldquo;{REVIEWS[current].quote}&rdquo;</p>
+                  <p className="text-gray-700 text-[15px] lg:text-[16px] leading-[1.9] font-light italic">
+                    &ldquo;{REVIEWS[current].quote}&rdquo;
+                  </p>
                 </blockquote>
+
                 <div className="flex items-center gap-3 pt-4 border-t border-gray-100">
-                  <div className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold ${REVIEWS[current].color}`}>{REVIEWS[current].initials}</div>
-                  <div>
-                    <div className="text-gray-900 font-semibold text-[14px]">{REVIEWS[current].name}</div>
-                    <div className="text-gray-400 text-[12px]">{REVIEWS[current].role}</div>
+                  <div
+                    className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold ${REVIEWS[current].color}`}
+                  >
+                    {REVIEWS[current].initials}
+                  </div>
+                  <div className="text-gray-500 text-[13px] font-medium tracking-wide">
+                    {REVIEWS[current].role}
                   </div>
                 </div>
               </motion.div>
@@ -286,32 +361,57 @@ export function TestimonialsSection() {
 
           {/* Controls */}
           <div className="flex items-center justify-center gap-4 mt-7">
-            <motion.button whileTap={{ scale: 0.93 }} onClick={() => paginate(-1)} className="w-9 h-9 rounded-full border-2 border-[#E8E5DE] flex items-center justify-center text-gray-400 hover:border-amber-400 hover:text-amber-500 transition-all duration-200">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M15 18l-6-6 6-6" /></svg>
+            <motion.button
+              whileTap={{ scale: 0.93 }}
+              onClick={() => paginate(-1)}
+              className="w-9 h-9 rounded-full border border-gray-800 flex items-center justify-center text-gray-500 hover:border-amber-400 hover:text-amber-500 transition"
+            >
+              ‹
             </motion.button>
+
             <div className="flex items-center gap-1.5">
               {REVIEWS.map((_, i) => (
-                <motion.button key={i} onClick={() => { setDirection(i > current ? 1 : -1); setCurrent(i) }}
-                  animate={{ width: i === current ? 22 : 7, opacity: i === current ? 1 : 0.32 }} transition={{ duration: 0.28 }}
-                  className="h-[3px] rounded-full bg-amber-400" />
+                <motion.button
+                  key={i}
+                  onClick={() => {
+                    setDirection(i > current ? 1 : -1)
+                    setCurrent(i)
+                  }}
+                  animate={{
+                    width: i === current ? 22 : 7,
+                    opacity: i === current ? 1 : 0.3,
+                  }}
+                  transition={{ duration: 0.3 }}
+                  className="h-[3px] rounded-full bg-amber-500"
+                />
               ))}
             </div>
-            <motion.button whileTap={{ scale: 0.93 }} onClick={() => paginate(1)} className="w-9 h-9 rounded-full border-2 border-[#E8E5DE] flex items-center justify-center text-gray-400 hover:border-amber-400 hover:text-amber-500 transition-all duration-200">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M9 18l6-6-6-6" /></svg>
+
+            <motion.button
+              whileTap={{ scale: 0.93 }}
+              onClick={() => paginate(1)}
+              className="w-9 h-9 rounded-full border border-gray-800 flex items-center justify-center text-gray-500 hover:border-amber-400 hover:text-amber-500 transition"
+            >
+              ›
             </motion.button>
           </div>
-          <p className="text-center text-[11px] text-gray-400 mt-2.5 font-medium tracking-wide">{current + 1} / {REVIEWS.length}</p>
+
+          <p className="text-center text-[11px] text-gray-400 mt-2.5 font-medium">
+            {current + 1} / {REVIEWS.length}
+          </p>
         </div>
 
+        {/* Bottom rating */}
         <div className="mt-8 flex items-center justify-center gap-3">
           <Stars n={5} />
-          <span className="text-gray-500 text-sm"><span className="font-semibold text-gray-900">4.9 / 5</span> — based on 120+ carrier reviews</span>
+          <span className="text-gray-600 text-sm">
+            <span className="font-semibold text-gray-900">4.9 / 5</span> — based on 120+ reviews
+          </span>
         </div>
       </div>
     </section>
   )
 }
-
 /* ─────────────────────────────────────────
    CTA BANNER
 ───────────────────────────────────────── */
@@ -339,7 +439,7 @@ export function CTABannerSection() {
           <motion.div whileHover={{ y: -3 }} whileTap={{ scale: 0.97 }}>
             <a href="tel:+18554794089" className="inline-flex items-center gap-2.5 bg-black/10 hover:bg-black/18 text-[#0A0A14] font-bold text-[15px] px-7 py-3.5 rounded-xl transition-all duration-200">
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.8 19.79 19.79 0 01.01 2.18 2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 7.91a16 16 0 006.08 6.08l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" /></svg>
-              +1 (855) 479-4089
+              +1 (346) 428-0370
             </a>
           </motion.div>
         </motion.div>
