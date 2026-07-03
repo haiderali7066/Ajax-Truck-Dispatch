@@ -168,7 +168,7 @@ export default function FormSection() {
       fd.append('message', data.message ?? '')
       if (fileInfo) fd.append('agreement', fileInfo, fileInfo.name)
 
-      const res = await fetch('https://usebasin.com/f/6329241fd772', {
+      const res = await fetch('https://usebasin.com/f/fc8ea70409ee', {
         method: 'POST',
         headers: { Accept: 'application/json' },
         body: fd,
