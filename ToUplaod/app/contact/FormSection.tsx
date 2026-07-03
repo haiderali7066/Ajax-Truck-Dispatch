@@ -154,7 +154,7 @@ export default function FormSection() {
     if (file) handleFilePick(file)
   }
 
-  /* Submit */
+  /* Submit — posts to usebasin */
   const onSubmit = async (data: FormData) => {
     setLoading(true)
     try {
@@ -168,8 +168,19 @@ export default function FormSection() {
       fd.append('message', data.message ?? '')
       if (fileInfo) fd.append('agreement', fileInfo, fileInfo.name)
 
-      const res = await fetch('/api/contact', { method: 'POST', body: fd })
-      if (res.ok) setSubmitted(true)
+      const res = await fetch('https://usebasin.com/f/6329241fd772', {
+        method: 'POST',
+        headers: { Accept: 'application/json' },
+        body: fd,
+      })
+
+      const json = await res.json()
+
+      if (res.ok && json.success) {
+        setSubmitted(true)
+      } else {
+        console.error('Basin submission failed:', json)
+      }
     } catch (e) {
       console.error(e)
     } finally {

@@ -1,5 +1,11 @@
 import Link from "next/link";
 import { Phone, Mail, MapPin, Clock } from "lucide-react";
+import {
+  FaInstagram,
+  FaFacebookF,
+  FaLinkedinIn,
+  FaPinterestP,
+} from "react-icons/fa";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -9,6 +15,8 @@ const navLinks = [
   { href: "/careers", label: "Careers" },
 ];
 
+
+
 export default function Footer() {
   return (
     <footer className="bg-dark border-t border-white/10">
@@ -17,12 +25,12 @@ export default function Footer() {
           {/* Brand */}
           <div className="lg:col-span-1">
             <div className="flex items-center gap-3 mb-4">
-              <div
+              {/* <div
                 className="w-9 h-9 bg-amber-400 flex items-center justify-center text-black font-bold text-sm"
                 style={{ clipPath: "polygon(20% 0%,80% 0%,100% 50%,80% 100%,20% 100%,0% 50%)" }}
               >
-                AX
-              </div>
+                AD
+              </div> */}
               <span className="font-display text-2xl tracking-[3px]">
                 AJAX <span className="text-amber-400">DISPATCH</span>
               </span>
@@ -31,15 +39,40 @@ export default function Footer() {
               Professional truck dispatch services helping owner-operators and carriers across the United States maximize revenue and reduce operational stress.
             </p>
             <div className="flex gap-3">
-              {["FB", "LI", "TW"].map((s) => (
-                <div
-                  key={s}
-                  className="w-9 h-9 border border-white/10 rounded-lg flex items-center justify-center text-xs text-gray-400 hover:border-amber-400/40 hover:text-amber-400 cursor-pointer transition-all"
-                >
-                  {s}
-                </div>
-              ))}
-            </div>
+  {[
+    {
+      icon: <FaInstagram size={16} />,
+      href: "https://www.instagram.com/ajaxdispatch/",
+      label: "Instagram",
+    },
+    {
+      icon: <FaLinkedinIn size={16} />,
+      href: "https://www.linkedin.com/company/ajax-dispatch",
+      label: "LinkedIn",
+    },
+    {
+      icon: <FaFacebookF size={16} />,
+      href: "https://www.facebook.com/share/1HNsHyDQMk/",
+      label: "Facebook",
+    },
+    {
+      icon: <FaPinterestP size={16} />,
+      href: "https://www.pinterest.com/ajaxdispatchofficial/",
+      label: "Pinterest",
+    },
+  ].map((social) => (
+    <Link
+      key={social.label}
+      href={social.href}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={social.label}
+      className="w-9 h-9 border border-white/10 rounded-lg flex items-center justify-center text-gray-400 hover:border-amber-400/40 hover:text-amber-400 hover:bg-amber-400/5 transition-all duration-300"
+    >
+      {social.icon}
+    </Link>
+  ))}
+</div>
           </div>
 
           {/* Quick Links */}

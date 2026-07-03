@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import Image from 'next/image'
 
 const NAV_LINKS = [
   { label: 'Home',     href: '/'         },
@@ -49,15 +50,12 @@ export default function Navbar() {
           
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2.5 group">
-            <div
-              className="w-8 h-8 flex items-center justify-center text-white font-black text-sm transition-transform duration-300 group-hover:scale-110"
-              style={{ background: '#F59E0B', clipPath: 'polygon(20% 0%,80% 0%,100% 50%,80% 100%,20% 100%,0% 50%)' }}
-            >A</div>
+            <Image src="/logo2.png" alt="Ajax Dispatch Logo" width={40} height={40} className=' rounded-full' />
             <span
               className="font-black tracking-[3px] text-gray-900"
               style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: 24 }}
             >
-              AJAX<span className="text-amber-400">.</span>
+              AJAX<span className="text-amber-400"> Dispatch.</span>
             </span>
           </Link>
 
