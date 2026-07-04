@@ -64,7 +64,7 @@ export default function Navbar() {
             {NAV_LINKS.map(l => {
               const active = isActive(l.href)
               return (
-                <li key={l.href}>
+                <li key={l.href}> 
                   <Link
                     href={l.href}
                     className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
