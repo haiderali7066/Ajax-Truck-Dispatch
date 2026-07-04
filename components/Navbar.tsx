@@ -50,7 +50,14 @@ export default function Navbar() {
           
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2.5 group">
-            <Image src="https://res.cloudinary.com/dvu9vmcqd/image/upload/v1783127774/logo2_x2evkp.png" alt="Ajax Dispatch Logo" width={40} height={40} className=' rounded-full' />
+            <Image 
+              src="/logo2.png" 
+              alt="Ajax Dispatch Logo" 
+              width={40} 
+              height={40} 
+              className="rounded-full object-cover" 
+              priority 
+            />
             <span
               className="font-black tracking-[3px] text-gray-900"
               style={{ fontFamily: "'Bebas Neue',sans-serif", fontSize: 24 }}
